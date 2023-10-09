@@ -193,10 +193,12 @@ method_alias = {
     "years": "year", "show_year": "year", "show_years": "year",
     "show_title": "title", "filter": "filters",
     "seasonyear": "year", "isadult": "adult", "startdate": "start", "enddate": "end", "averagescore": "score",
-    "minimum_tag_percentage": "min_tag_percent", "minimumtagrank": "min_tag_percent", "minimum_tag_rank": "min_tag_percent",
+    "minimum_tag_percentage": "min_tag_percent", "minimumtagrank": "min_tag_percent",
+    "minimum_tag_rank": "min_tag_percent",
     "anilist_tag": "anilist_search", "anilist_genre": "anilist_search", "anilist_season": "anilist_search",
     "mal_producer": "mal_studio", "mal_licensor": "mal_studio",
-    "trakt_recommended": "trakt_recommended_weekly", "trakt_watched": "trakt_watched_weekly", "trakt_collected": "trakt_collected_weekly",
+    "trakt_recommended": "trakt_recommended_weekly", "trakt_watched": "trakt_watched_weekly",
+    "trakt_collected": "trakt_collected_weekly",
     "collection_changes_webhooks": "changes_webhooks",
     "radarr_add": "radarr_add_missing", "sonarr_add": "sonarr_add_missing",
     "trakt_recommended_personal": "trakt_recommendations",
@@ -206,10 +208,12 @@ modifier_alias = {".greater": ".gt", ".less": ".lt"}
 date_sub_mods = {"s": "Seconds", "m": "Minutes", "h": "Hours", "d": "Days", "w": "Weeks", "o": "Months", "y": "Years"}
 album_sorting_options = {"default": -1, "newest": 0, "oldest": 1, "name": 2}
 episode_sorting_options = {"default": -1, "oldest": 0, "newest": 1}
-keep_episodes_options = {"all": 0, "5_latest": 5, "3_latest": 3, "latest": 1, "past_3": -3, "past_7": -7, "past_30": -30}
+keep_episodes_options = {"all": 0, "5_latest": 5, "3_latest": 3, "latest": 1, "past_3": -3, "past_7": -7,
+                         "past_30": -30}
 delete_episodes_options = {"never": 0, "day": 1, "week": 7, "refresh": 100}
 season_display_options = {"default": -1, "show": 0, "hide": 1}
-episode_ordering_options = {"default": None, "tmdb_aired": "tmdbAiring", "tvdb_aired": "aired", "tvdb_dvd": "dvd", "tvdb_absolute": "absolute"}
+episode_ordering_options = {"default": None, "tmdb_aired": "tmdbAiring", "tvdb_aired": "aired", "tvdb_dvd": "dvd",
+                            "tvdb_absolute": "absolute"}
 plex_languages = ["default", "ar-SA", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-AU", "en-CA", "en-GB", "en-US",
                   "es-ES", "es-MX", "et-EE", "fa-IR", "fi-FI", "fr-CA", "fr-FR", "he-IL", "hi-IN", "hu-HU", "id-ID",
                   "it-IT", "ja-JP", "ko-KR", "lt-LT", "lv-LV", "nb-NO", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO",
@@ -242,7 +246,7 @@ item_advance_keys = {
 new_plex_agents = ["tv.plex.agents.movie", "tv.plex.agents.series"]
 and_searches = [
     "title.and", "studio.and", "actor.and", "audio_language.and", "collection.and",
-    "content_rating.and", "country.and",  "director.and", "genre.and", "label.and",
+    "content_rating.and", "country.and", "director.and", "genre.and", "label.and",
     "network.and", "producer.and", "subtitle_language.and", "writer.and"
 ]
 or_searches = [
@@ -254,7 +258,8 @@ movie_only_searches = [
     "director", "director.not", "producer", "producer.not", "writer", "writer.not",
     "decade", "duplicate", "unplayed", "progress",
     "duration.gt", "duration.gte", "duration.lt", "duration.lte"
-    "edition", "edition.not", "edition.is", "edition.isnot", "edition.begins", "edition.ends"
+                                                  "edition", "edition.not", "edition.is", "edition.isnot",
+    "edition.begins", "edition.ends"
 ]
 show_only_searches = [
     "network", "network.not",
@@ -262,23 +267,30 @@ show_only_searches = [
     "episode_collection", "episode_collection.not",
     "season_label", "season_label.not",
     "episode_label", "episode_label.not",
-    "episode_title", "episode_title.not", "episode_title.is", "episode_title.isnot", "episode_title.begins", "episode_title.ends",
+    "episode_title", "episode_title.not", "episode_title.is", "episode_title.isnot", "episode_title.begins",
+    "episode_title.ends",
     "episode_added", "episode_added.not", "episode_added.before", "episode_added.after",
     "episode_air_date", "episode_air_date.not",
     "episode_air_date.before", "episode_air_date.after",
     "episode_last_played", "episode_last_played.not", "episode_last_played.before", "episode_last_played.after",
     "episode_plays.gt", "episode_plays.gte", "episode_plays.lt", "episode_plays.lte",
-    "episode_user_rating.gt", "episode_user_rating.gte", "episode_user_rating.lt", "episode_user_rating.lte", "episode_user_rating.rated",
-    "episode_critic_rating.gt", "episode_critic_rating.gte", "episode_critic_rating.lt", "episode_critic_rating.lte", "episode_critic_rating.rated",
-    "episode_audience_rating.gt", "episode_audience_rating.gte", "episode_audience_rating.lt", "episode_audience_rating.lte", "episode_audience_rating.rated",
+    "episode_user_rating.gt", "episode_user_rating.gte", "episode_user_rating.lt", "episode_user_rating.lte",
+    "episode_user_rating.rated",
+    "episode_critic_rating.gt", "episode_critic_rating.gte", "episode_critic_rating.lt", "episode_critic_rating.lte",
+    "episode_critic_rating.rated",
+    "episode_audience_rating.gt", "episode_audience_rating.gte", "episode_audience_rating.lt",
+    "episode_audience_rating.lte", "episode_audience_rating.rated",
     "episode_year", "episode_year.not", "episode_year.gt", "episode_year.gte", "episode_year.lt", "episode_year.lte",
-    "unplayed_episodes", "episode_unplayed", "episode_duplicate", "episode_progress", "episode_unmatched", "show_unmatched",
+    "unplayed_episodes", "episode_unplayed", "episode_duplicate", "episode_progress", "episode_unmatched",
+    "show_unmatched",
 ]
-string_attributes = ["title", "studio", "edition", "episode_title", "artist_title", "album_title", "album_record_label", "track_title"]
+string_attributes = ["title", "studio", "edition", "episode_title", "artist_title", "album_title", "album_record_label",
+                     "track_title"]
 string_modifiers = ["", ".not", ".is", ".isnot", ".begins", ".ends"]
 boolean_attributes = [
     "hdr", "unmatched", "duplicate", "unplayed", "progress", "trash", "unplayed_episodes", "episode_unplayed",
-    "episode_duplicate", "episode_progress", "episode_unmatched", "show_unmatched", "artist_unmatched", "album_unmatched", "track_trash"
+    "episode_duplicate", "episode_progress", "episode_unmatched", "show_unmatched", "artist_unmatched",
+    "album_unmatched", "track_trash"
 ]
 tmdb_attributes = ["actor", "director", "producer", "writer"]
 date_attributes = [
@@ -291,25 +303,32 @@ year_attributes = ["decade", "year", "episode_year", "album_year", "album_decade
 number_attributes = ["plays", "episode_plays", "album_plays", "track_plays", "track_skips"] + year_attributes
 number_modifiers = [".gt", ".gte", ".lt", ".lte"]
 float_attributes = [
-    "user_rating", "episode_user_rating", "critic_rating", "episode_critic_rating", "audience_rating", "episode_audience_rating",
+    "user_rating", "episode_user_rating", "critic_rating", "episode_critic_rating", "audience_rating",
+    "episode_audience_rating",
     "duration", "artist_user_rating", "album_user_rating", "album_critic_rating", "track_user_rating"
 ]
 float_modifiers = number_modifiers + [".rated"]
-search_display = {"added": "Date Added", "release": "Release Date", "hdr": "HDR", "progress": "In Progress", "episode_progress": "Episode In Progress"}
+search_display = {"added": "Date Added", "release": "Release Date", "hdr": "HDR", "progress": "In Progress",
+                  "episode_progress": "Episode In Progress"}
 tag_attributes = [
-    "actor", "audio_language", "collection", "content_rating", "country", "director", "genre", "label", "season_label", "episode_label", "network",
-    "producer", "resolution", "studio", "subtitle_language", "writer", "season_collection", "episode_collection", "edition",
-    "artist_genre", "artist_collection", "artist_country", "artist_mood", "artist_label", "artist_style", "album_genre", "album_mood",
-    "album_style", "album_format", "album_type", "album_collection", "album_source", "album_label", "track_mood", "track_source", "track_label"
+    "actor", "audio_language", "collection", "content_rating", "country", "director", "genre", "label", "season_label",
+    "episode_label", "network",
+    "producer", "resolution", "studio", "subtitle_language", "writer", "season_collection", "episode_collection",
+    "edition",
+    "artist_genre", "artist_collection", "artist_country", "artist_mood", "artist_label", "artist_style", "album_genre",
+    "album_mood",
+    "album_style", "album_format", "album_type", "album_collection", "album_source", "album_label", "track_mood",
+    "track_source", "track_label"
 ]
 tag_modifiers = ["", ".not", ".regex"]
 no_not_mods = ["resolution", "decade", "album_decade"]
 searches = boolean_attributes + \
-               [f"{f}{m}" for f in string_attributes for m in string_modifiers] + \
-               [f"{f}{m}" for f in tag_attributes + year_attributes for m in tag_modifiers if f not in no_not_mods or m != ".not"] + \
-               [f"{f}{m}" for f in date_attributes for m in date_modifiers] + \
-               [f"{f}{m}" for f in number_attributes for m in number_modifiers if f not in no_not_mods] + \
-               [f"{f}{m}" for f in float_attributes for m in float_modifiers if f != "duration" or m != ".rated"]
+           [f"{f}{m}" for f in string_attributes for m in string_modifiers] + \
+           [f"{f}{m}" for f in tag_attributes + year_attributes for m in tag_modifiers if
+            f not in no_not_mods or m != ".not"] + \
+           [f"{f}{m}" for f in date_attributes for m in date_modifiers] + \
+           [f"{f}{m}" for f in number_attributes for m in number_modifiers if f not in no_not_mods] + \
+           [f"{f}{m}" for f in float_attributes for m in float_modifiers if f != "duration" or m != ".rated"]
 music_searches = [a for a in searches if a.startswith(("artist", "album", "track"))]
 movie_sorts = {
     "title.asc": "titleSort", "title.desc": "titleSort%3Adesc",
@@ -318,7 +337,7 @@ movie_sorts = {
     "release.asc": "originallyAvailableAt", "release.desc": "originallyAvailableAt%3Adesc",
     "critic_rating.asc": "rating", "critic_rating.desc": "rating%3Adesc",
     "audience_rating.asc": "audienceRating", "audience_rating.desc": "audienceRating%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "content_rating.asc": "contentRating", "content_rating.desc": "contentRating%3Adesc",
     "duration.asc": "duration", "duration.desc": "duration%3Adesc",
     "progress.asc": "viewOffset", "progress.desc": "viewOffset%3Adesc",
@@ -333,12 +352,14 @@ show_sorts = {
     "title.asc": "titleSort", "title.desc": "titleSort%3Adesc",
     "year.asc": "year", "year.desc": "year%3Adesc",
     "originally_available.asc": "originallyAvailableAt", "originally_available.desc": "originallyAvailableAt%3Adesc",
-    "episode_originally_available.asc": "episode.originallyAvailableAt", "episode_originally_available.desc": "episode.originallyAvailableAt%3Adesc",
+    "episode_originally_available.asc": "episode.originallyAvailableAt",
+    "episode_originally_available.desc": "episode.originallyAvailableAt%3Adesc",
     "release.asc": "originallyAvailableAt", "release.desc": "originallyAvailableAt%3Adesc",
-    "episode_release.asc": "episode.originallyAvailableAt", "episode_release.desc": "episode.originallyAvailableAt%3Adesc",
+    "episode_release.asc": "episode.originallyAvailableAt",
+    "episode_release.desc": "episode.originallyAvailableAt%3Adesc",
     "critic_rating.asc": "rating", "critic_rating.desc": "rating%3Adesc",
     "audience_rating.asc": "audienceRating", "audience_rating.desc": "audienceRating%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "content_rating.asc": "contentRating", "content_rating.desc": "contentRating%3Adesc",
     "unplayed.asc": "unviewedLeafCount", "unplayed.desc": "unviewedLeafCount%3Adesc",
     "episode_added.asc": "episode.addedAt", "episode_added.desc": "episode.addedAt%3Adesc",
@@ -349,7 +370,7 @@ show_sorts = {
 season_sorts = {
     "season.asc": "season.index%2Cseason.titleSort", "season.desc": "season.index%3Adesc%2Cseason.titleSort",
     "show.asc": "show.titleSort%2Cindex", "show.desc": "show.titleSort%3Adesc%2Cindex",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "added.asc": "addedAt", "added.desc": "addedAt%3Adesc",
     "random": "random"
 }
@@ -359,12 +380,14 @@ episode_sorts = {
     "show.desc": "show.titleSort%3Adesc%2Cseason.index%3AnullsLast%2Cepisode.index%3AnullsLast%2Cepisode.originallyAvailableAt%3AnullsLast%2Cepisode.titleSort%2Cepisode.id",
     "year.asc": "year", "year.desc": "year%3Adesc",
     "originally_available.asc": "originallyAvailableAt", "originally_available.desc": "originallyAvailableAt%3Adesc",
-    "episode_originally_available.asc": "episode.originallyAvailableAt", "episode_originally_available.desc": "episode.originallyAvailableAt%3Adesc",
+    "episode_originally_available.asc": "episode.originallyAvailableAt",
+    "episode_originally_available.desc": "episode.originallyAvailableAt%3Adesc",
     "release.asc": "originallyAvailableAt", "release.desc": "originallyAvailableAt%3Adesc",
-    "episode_release.asc": "episode.originallyAvailableAt", "episode_release.desc": "episode.originallyAvailableAt%3Adesc",
+    "episode_release.asc": "episode.originallyAvailableAt",
+    "episode_release.desc": "episode.originallyAvailableAt%3Adesc",
     "critic_rating.asc": "rating", "critic_rating.desc": "rating%3Adesc",
     "audience_rating.asc": "audienceRating", "audience_rating.desc": "audienceRating%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "duration.asc": "duration", "duration.desc": "duration%3Adesc",
     "progress.asc": "viewOffset", "progress.desc": "viewOffset%3Adesc",
     "plays.asc": "viewCount", "plays.desc": "viewCount%3Adesc",
@@ -376,7 +399,7 @@ episode_sorts = {
 }
 artist_sorts = {
     "title.asc": "titleSort", "title.desc": "titleSort%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "added.asc": "addedAt", "added.desc": "addedAt%3Adesc",
     "played.asc": "lastViewedAt", "played.desc": "lastViewedAt%3Adesc",
     "plays.asc": "viewCount", "plays.desc": "viewCount%3Adesc",
@@ -390,7 +413,7 @@ album_sorts = {
     "originally_available.asc": "originallyAvailableAt", "originally_available.desc": "originallyAvailableAt%3Adesc",
     "release.asc": "originallyAvailableAt", "release.desc": "originallyAvailableAt%3Adesc",
     "critic_rating.asc": "rating", "critic_rating.desc": "rating%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "added.asc": "addedAt", "added.desc": "addedAt%3Adesc",
     "played.asc": "lastViewedAt", "played.desc": "lastViewedAt%3Adesc",
     "plays.asc": "viewCount", "plays.desc": "viewCount%3Adesc",
@@ -402,7 +425,7 @@ track_sorts = {
     "album_artist.desc": "artist.titleSort%3Adesc%2Calbum.titleSort%2Calbum.year%2Ctrack.absoluteIndex%2Ctrack.index%2Ctrack.titleSort%2Ctrack.id",
     "artist.asc": "originalTitle", "artist.desc": "originalTitle%3Adesc",
     "album.asc": "album.titleSort", "album.desc": "album.titleSort%3Adesc",
-    "user_rating.asc": "userRating",  "user_rating.desc": "userRating%3Adesc",
+    "user_rating.asc": "userRating", "user_rating.desc": "userRating%3Adesc",
     "duration.asc": "duration", "duration.desc": "duration%3Adesc",
     "plays.asc": "viewCount", "plays.desc": "viewCount%3Adesc",
     "added.asc": "addedAt", "added.desc": "addedAt%3Adesc",
@@ -428,6 +451,7 @@ watchlist_sorts = {
     "critic_rating.asc": "rating:asc", "critic_rating.desc": "rating:desc",
 }
 
+
 class Plex(Library):
     def __init__(self, config, params):
         super().__init__(config, params)
@@ -438,7 +462,8 @@ class Plex(Library):
         logger.secret(self.url)
         logger.secret(self.token)
         try:
-            self.PlexServer = PlexServer(baseurl=self.url, token=self.token, session=self.config.session, timeout=self.timeout)
+            self.PlexServer = PlexServer(baseurl=self.url, token=self.token, session=self.config.session,
+                                         timeout=self.timeout)
             plexapi.server.TIMEOUT = self.timeout
             os.environ["PLEXAPI_PLEXAPI_TIMEOUT"] = str(self.timeout)
             logger.info(f"Connected to server {self.PlexServer.friendlyName} version {self.PlexServer.version}")
@@ -460,7 +485,8 @@ class Plex(Library):
             elif srv_settings.get("butlerUpdateChannel").value == '8':
                 uc_str = f"PlexPass update channel."
             logger.info(f"{pp_str} on {uc_str}")
-            logger.info(f"Scheduled maintenance running between {srv_settings.get('butlerStartHour').value}:00 and {srv_settings.get('butlerEndHour').value}:00")
+            logger.info(
+                f"Scheduled maintenance running between {srv_settings.get('butlerStartHour').value}:00 and {srv_settings.get('butlerEndHour').value}:00")
         except Unauthorized:
             logger.info(f"Plex Error: Plex connection attempt returned 'Unauthorized'")
             raise Failed("Plex Error: Plex token is invalid")
@@ -513,7 +539,8 @@ class Plex(Library):
         logger.info(f"Ratings Source: {self.ratings_source}")
 
     def notify(self, text, collection=None, critical=True):
-        self.config.notify(text, server=self.PlexServer.friendlyName, library=self.name, collection=collection, critical=critical)
+        self.config.notify(text, server=self.PlexServer.friendlyName, library=self.name, collection=collection,
+                           critical=critical)
 
     def notify_delete(self, message):
         self.config.notify_delete(message, server=self.PlexServer.friendlyName, library=self.name)
@@ -525,7 +552,7 @@ class Plex(Library):
     def get_all_collections(self, label=None):
         args = "?type=18"
         if label:
-            label_id = next((c.key for c in self.get_tags("label") if c.title == label), None) # noqa
+            label_id = next((c.key for c in self.get_tags("label") if c.title == label), None)  # noqa
             if label_id:
                 args = f"{args}&label={label_id}"
             else:
@@ -583,7 +610,8 @@ class Plex(Library):
         results = []
         total_size = 1
         while total_size > len(results) and container_start <= total_size:
-            data = self.Plex._server.query(key, headers={"X-Plex-Container-Start": str(container_start), "X-Plex-Container-Size": str(container_size)})
+            data = self.Plex._server.query(key, headers={"X-Plex-Container-Start": str(container_start),
+                                                         "X-Plex-Container-Size": str(container_size)})
             subresults = self.Plex.findItems(data, initpath=key)
             total_size = utils.cast(int, data.attrib.get('totalSize') or data.attrib.get('size')) or len(subresults)
 
@@ -661,6 +689,15 @@ class Plex(Library):
         except BadRequest:
             raise Failed(f"Item: {item.title} Labels failed to load")
 
+    def get_method_alias(self):
+        return method_alias
+
+    def get_modifier_alias(self):
+        return modifier_alias
+
+    def get_builder(self):
+        return builder
+
     def get_language(self):
         return self.Plex.language
 
@@ -690,7 +727,8 @@ class Plex(Library):
                         image_url = f"{self.url}{poster.key}&X-Plex-Token={self.token}"
                         if poster.ratingKey.startswith("upload"):
                             try:
-                                self.check_image_for_overlay(image_url, os.path.join(self.overlay_backup, "temp"), remove=True)
+                                self.check_image_for_overlay(image_url, os.path.join(self.overlay_backup, "temp"),
+                                                             remove=True)
                             except Failed as e:
                                 logger.trace(f"Plex Error: {e}")
                                 continue
@@ -711,7 +749,8 @@ class Plex(Library):
                     image_url = f"{self.url}{poster.key}&X-Plex-Token={self.token}"
                     if poster.ratingKey.startswith("upload"):
                         try:
-                            self.check_image_for_overlay(image_url, os.path.join(self.overlay_backup, "temp"), remove=True)
+                            self.check_image_for_overlay(image_url, os.path.join(self.overlay_backup, "temp"),
+                                                         remove=True)
                         except Failed as e:
                             logger.trace(f"Plex Error: {e}")
                             continue
@@ -730,9 +769,12 @@ class Plex(Library):
         try:
             if not is_full or force:
                 item.reload(checkFiles=False, includeAllConcerts=False, includeBandwidths=False, includeChapters=False,
-                            includeChildren=False, includeConcerts=False, includeExternalMedia=False, includeExtras=False,
-                            includeFields=False, includeGeolocation=False, includeLoudnessRamps=False, includeMarkers=False,
-                            includeOnDeck=False, includePopularLeaves=False, includeRelated=False, includeRelatedCount=0,
+                            includeChildren=False, includeConcerts=False, includeExternalMedia=False,
+                            includeExtras=False,
+                            includeFields=False, includeGeolocation=False, includeLoudnessRamps=False,
+                            includeMarkers=False,
+                            includeOnDeck=False, includePopularLeaves=False, includeRelated=False,
+                            includeRelatedCount=0,
                             includeReviews=False, includeStations=False)
                 item._autoReload = False
                 self.cached_items[item.ratingKey] = (item, True)
@@ -787,11 +829,13 @@ class Plex(Library):
 
     def get_search_choices(self, search_name, title=True, name_pairs=False):
         final_search = search_translation[search_name] if search_name in search_translation else search_name
-        final_search = show_translation[final_search] if self.is_show and final_search in show_translation else final_search
+        final_search = show_translation[
+            final_search] if self.is_show and final_search in show_translation else final_search
         try:
             names = []
             choices = {}
-            use_title = title and final_search not in ["contentRating", "audioLanguage", "subtitleLanguage", "resolution"]
+            use_title = title and final_search not in ["contentRating", "audioLanguage", "subtitleLanguage",
+                                                       "resolution"]
             for choice in self.get_tags(final_search):
                 if choice.title not in names:
                     names.append((choice.title, choice.key) if name_pairs else choice.title)
@@ -822,14 +866,18 @@ class Plex(Library):
         if tag.key.endswith("/collection?type=4"):
             keys = [k.key for k in items]
             keys.extend([k.key for k in self.Plex.findItems(self.Plex._server.query(f"{tag.key[:-1]}3"), FilterChoice)])
-            items = [i for i in self.Plex.findItems(self.Plex._server.query(tag.key[:-7]), FilterChoice) if i.key not in keys]
+            items = [i for i in self.Plex.findItems(self.Plex._server.query(tag.key[:-7]), FilterChoice) if
+                     i.key not in keys]
         return items
 
     @retry(stop_max_attempt_number=6, wait_fixed=10000, retry_on_exception=util.retry_if_not_plex)
     def _query(self, key, post=False, put=False):
-        if post:                method = self.Plex._server._session.post
-        elif put:               method = self.Plex._server._session.put
-        else:                   method = None
+        if post:
+            method = self.Plex._server._session.post
+        elif put:
+            method = self.Plex._server._session.put
+        else:
+            method = None
         return self.Plex._server.query(key, method=method)
 
     @property
@@ -856,6 +904,7 @@ class Plex(Library):
 
     def playlist_report(self):
         playlists = {}
+
         def scan_user(server, username):
             try:
                 for playlist in server.playlists():
@@ -865,6 +914,7 @@ class Plex(Library):
                         playlists[playlist.title].append(username)
             except requests.exceptions.ConnectionError:
                 pass
+
         scan_user(self.PlexServer, self.account.title)
         for user in self.users:
             scan_user(self.PlexServer.switchUser(user), user)
@@ -901,7 +951,7 @@ class Plex(Library):
         self._query(key, put=True)
 
     def smart_label_check(self, label):
-        labels = [la.title for la in self.get_tags("label")] # noqa
+        labels = [la.title for la in self.get_tags("label")]  # noqa
         if label in labels:
             return True
         logger.trace(f"Label not found in Plex. Options: {labels}")
@@ -936,7 +986,7 @@ class Plex(Library):
         self._query(f"/library/collections{utils.joinArgs(args)}", post=True)
 
     def get_smart_filter_from_uri(self, uri):
-        smart_filter = parse.parse_qs(parse.urlparse(uri.replace("/#!/", "/")).query)["key"][0] # noqa
+        smart_filter = parse.parse_qs(parse.urlparse(uri.replace("/#!/", "/")).query)["key"][0]  # noqa
         args = smart_filter[smart_filter.index("?"):]
         return self.build_smart_filter(args), int(args[args.index("type=") + 5:args.index("type=") + 6])
 
@@ -945,7 +995,9 @@ class Plex(Library):
 
     def update_smart_collection(self, collection, uri_args):
         self.test_smart_filter(uri_args)
-        self._query(f"/library/collections/{collection.ratingKey}/items{utils.joinArgs({'uri': self.build_smart_filter(uri_args)})}", put=True)
+        self._query(
+            f"/library/collections/{collection.ratingKey}/items{utils.joinArgs({'uri': self.build_smart_filter(uri_args)})}",
+            put=True)
 
     def smart_filter(self, collection):
         smart_filter = self.get_collection(collection).content
@@ -953,7 +1005,8 @@ class Plex(Library):
 
     def collection_visibility(self, collection):
         try:
-            attrs = self._query(f"/hubs/sections/{self.Plex.key}/manage?metadataItemId={collection.ratingKey}")[0].attrib
+            attrs = self._query(f"/hubs/sections/{self.Plex.key}/manage?metadataItemId={collection.ratingKey}")[
+                0].attrib
             return {
                 "library": utils.cast(bool, attrs.get("promotedToRecommended", "0")),
                 "home": utils.cast(bool, attrs.get("promotedToOwnHome", "0")),
@@ -1162,7 +1215,8 @@ class Plex(Library):
             logger.stacktrace()
             return False
 
-    def edit_tags(self, attr, obj, add_tags=None, remove_tags=None, sync_tags=None, do_print=True, locked=True, is_locked=None):
+    def edit_tags(self, attr, obj, add_tags=None, remove_tags=None, sync_tags=None, do_print=True, locked=True,
+                  is_locked=None):
         display = ""
         final = ""
         key = attribute_translation[attr] if attr in attribute_translation else attr
@@ -1240,7 +1294,8 @@ class Plex(Library):
             else:
                 logger.warning(f"{text} | No Reset Image Found")
 
-    def item_images(self, item, group, alias, initial=False, asset_location=None, asset_directory=None, title=None, image_name=None, folder_name=None, style_data=None):
+    def item_images(self, item, group, alias, initial=False, asset_location=None, asset_directory=None, title=None,
+                    image_name=None, folder_name=None, style_data=None):
         if title is None:
             title = item.title
         posters, backgrounds = util.get_image_dicts(group, alias)
@@ -1253,7 +1308,9 @@ class Plex(Library):
         elif style_data and "tpdb_background" in style_data and style_data["tpdb_background"]:
             backgrounds["style_data"] = f"https://theposterdb.com/api/assets/{style_data['tpdb_background']}"
         try:
-            asset_poster, asset_background, item_dir, folder_name = self.find_item_assets(item, item_asset_directory=asset_location, asset_directory=asset_directory)
+            asset_poster, asset_background, item_dir, folder_name = self.find_item_assets(item,
+                                                                                          item_asset_directory=asset_location,
+                                                                                          asset_directory=asset_directory)
             if asset_poster:
                 posters["asset_directory"] = asset_poster
             if asset_background:
@@ -1262,9 +1319,12 @@ class Plex(Library):
                 asset_location = item_dir
         except Failed as e:
             logger.warning(e)
-        poster = util.pick_image(title, posters, self.prioritize_assets, self.download_url_assets, asset_location, image_name=image_name)
-        background = util.pick_image(title, backgrounds, self.prioritize_assets, self.download_url_assets, asset_location,
-                                     is_poster=False, image_name=f"{image_name}_background" if image_name else image_name)
+        poster = util.pick_image(title, posters, self.prioritize_assets, self.download_url_assets, asset_location,
+                                 image_name=image_name)
+        background = util.pick_image(title, backgrounds, self.prioritize_assets, self.download_url_assets,
+                                     asset_location,
+                                     is_poster=False,
+                                     image_name=f"{image_name}_background" if image_name else image_name)
         updated = False
         if poster or background:
             pu, bu = self.upload_images(item, poster=poster, background=background, overlay=True)
@@ -1294,12 +1354,16 @@ class Plex(Library):
             found_episode = False
             for season in self.query(item.seasons):
                 try:
-                    season_poster, season_background, _, _ = self.find_item_assets(season, item_asset_directory=item_dir, asset_directory=asset_directory, folder_name=name)
+                    season_poster, season_background, _, _ = self.find_item_assets(season,
+                                                                                   item_asset_directory=item_dir,
+                                                                                   asset_directory=asset_directory,
+                                                                                   folder_name=name)
                     if season_poster:
                         found_season = True
                     elif self.show_missing_season_assets and season.seasonNumber > 0:
                         missing_seasons += f"\nMissing Season {season.seasonNumber} Poster"
-                    if season_poster or season_background and "Overlay" not in [la.tag for la in self.item_labels(season)]:
+                    if season_poster or season_background and "Overlay" not in [la.tag for la in
+                                                                                self.item_labels(season)]:
                         self.upload_images(season, poster=season_poster, background=season_background)
                 except Failed as e:
                     if self.show_missing_assets:
@@ -1307,7 +1371,10 @@ class Plex(Library):
                 for episode in self.query(season.episodes):
                     try:
                         if episode.seasonEpisode:
-                            episode_poster, episode_background, _, _ = self.find_item_assets(episode, item_asset_directory=item_dir, asset_directory=asset_directory, folder_name=name)
+                            episode_poster, episode_background, _, _ = self.find_item_assets(episode,
+                                                                                             item_asset_directory=item_dir,
+                                                                                             asset_directory=asset_directory,
+                                                                                             folder_name=name)
                             if episode_poster or episode_background:
                                 found_episode = True
                                 if "Overlay" not in [la.tag for la in self.item_labels(episode)]:
@@ -1324,7 +1391,9 @@ class Plex(Library):
             found_album = False
             for album in self.query(item.albums):
                 try:
-                    album_poster, album_background, _, _ = self.find_item_assets(album, item_asset_directory=item_dir, asset_directory=asset_directory, folder_name=name)
+                    album_poster, album_background, _, _ = self.find_item_assets(album, item_asset_directory=item_dir,
+                                                                                 asset_directory=asset_directory,
+                                                                                 folder_name=name)
                     if album_poster or album_background:
                         found_album = True
                     elif self.show_missing_season_assets:
@@ -1412,7 +1481,8 @@ class Plex(Library):
                 return None, None, item_asset_directory, folder_name
 
         poster_filter = os.path.join(item_asset_directory, f"{file_name}.*")
-        background_filter = os.path.join(item_asset_directory, "background.*" if file_name == "poster" else f"{file_name}_background.*")
+        background_filter = os.path.join(item_asset_directory,
+                                         "background.*" if file_name == "poster" else f"{file_name}_background.*")
 
         poster_matches = util.glob_filter(poster_filter)
         if len(poster_matches) > 0:
@@ -1420,22 +1490,28 @@ class Plex(Library):
 
         background_matches = util.glob_filter(background_filter)
         if len(background_matches) > 0:
-            background = ImageData("asset_directory", os.path.abspath(background_matches[0]), prefix=prefix, is_poster=False, is_url=False)
+            background = ImageData("asset_directory", os.path.abspath(background_matches[0]), prefix=prefix,
+                                   is_poster=False, is_url=False)
 
         if is_top_level and self.asset_folders and self.dimensional_asset_rename and (not poster or not background):
             for file in util.glob_filter(os.path.join(item_asset_directory, "*.*")):
-                if file.lower().endswith((".png", ".jpg", ".jpeg", "webp")) and not re.match(r"s\d+e\d+|season\d+", os.path.basename(file).lower()):
+                if file.lower().endswith((".png", ".jpg", ".jpeg", "webp")) and not re.match(r"s\d+e\d+|season\d+",
+                                                                                             os.path.basename(
+                                                                                                     file).lower()):
                     try:
                         with Image.open(file) as image:
                             _w, _h = image.size
                         if not poster and _h >= _w:
                             new_path = os.path.join(os.path.dirname(file), f"poster{os.path.splitext(file)[1].lower()}")
                             os.rename(file, new_path)
-                            poster = ImageData("asset_directory", os.path.abspath(new_path), prefix=prefix, is_url=False)
+                            poster = ImageData("asset_directory", os.path.abspath(new_path), prefix=prefix,
+                                               is_url=False)
                         elif not background and _w > _h:
-                            new_path = os.path.join(os.path.dirname(file), f"background{os.path.splitext(file)[1].lower()}")
+                            new_path = os.path.join(os.path.dirname(file),
+                                                    f"background{os.path.splitext(file)[1].lower()}")
                             os.rename(file, new_path)
-                            background = ImageData("asset_directory", os.path.abspath(new_path), prefix=prefix, is_poster=False, is_url=False)
+                            background = ImageData("asset_directory", os.path.abspath(new_path), prefix=prefix,
+                                                   is_poster=False, is_url=False)
                         if poster and background:
                             break
                     except OSError:
@@ -1493,7 +1569,9 @@ class Plex(Library):
                     if isinstance(plex_value, list):
                         plex_tags = [t.tag for t in plex_value]
                         if len(plex_tags) > 0 or self.metadata_backup["sync_tags"]:
-                            attrs[f"{pmm_key}.sync" if self.metadata_backup["sync_tags"] else pmm_key] = None if not plex_tags else plex_tags[0] if len(plex_tags) == 1 else plex_tags
+                            attrs[f"{pmm_key}.sync" if self.metadata_backup[
+                                "sync_tags"] else pmm_key] = None if not plex_tags else plex_tags[0] if len(
+                                plex_tags) == 1 else plex_tags
                     elif isinstance(plex_value, datetime):
                         attrs[pmm_key] = datetime.strftime(plex_value, "%Y-%m-%d")
                     else:
@@ -1560,24 +1638,6 @@ class Plex(Library):
         else:
             return getattr(item_to_sort, atr)
 
-    def split(self, text):
-        attribute, modifier = os.path.splitext(str(text).lower())
-        attribute = method_alias[attribute] if attribute in method_alias else attribute
-        modifier = modifier_alias[modifier] if modifier in modifier_alias else modifier
-
-        if attribute == "add_to_arr":
-            attribute = "radarr_add_missing" if self.is_movie else "sonarr_add_missing"
-        elif attribute in ["arr_tag", "arr_folder"]:
-            attribute = f"{'rad' if self.is_movie else 'son'}{attribute}"
-        elif attribute in builder.date_attributes and modifier in [".gt", ".gte"]:
-            modifier = ".after"
-        elif attribute in builder.date_attributes and modifier in [".lt", ".lte"]:
-            modifier = ".before"
-        final = f"{attribute}{modifier}"
-        if text != final:
-            logger.warning(f"Collection Warning: {text} attribute will run as {final}")
-        return attribute, modifier, final
-
     def check_filters(self, item, filters_in, current_time):
         for filter_method, filter_data in filters_in:
             filter_attr, modifier, filter_final = self.split(filter_method)
@@ -1618,7 +1678,8 @@ class Plex(Library):
             elif filter_attr == "subtitle_track_title":
                 for media in item.media:
                     for part in media.parts:
-                        values.extend([a.extendedDisplayTitle for a in part.subtitleStreams() if a.extendedDisplayTitle])
+                        values.extend(
+                            [a.extendedDisplayTitle for a in part.subtitleStreams() if a.extendedDisplayTitle])
             elif filter_attr in ["audio_codec", "audio_profile", "video_codec", "video_profile"]:
                 for media in item.media:
                     attr = getattr(media, filter_actual)
@@ -1639,7 +1700,8 @@ class Plex(Library):
                 filter_check = True if item.editionTitle else False
             elif filter_attr == "has_stinger":
                 filter_check = False
-                if item.ratingKey in self.movie_rating_key_map and self.movie_rating_key_map[item.ratingKey] in self.config.mediastingers:
+                if item.ratingKey in self.movie_rating_key_map and self.movie_rating_key_map[
+                    item.ratingKey] in self.config.mediastingers:
                     filter_check = True
             elif filter_attr == "has_overlay":
                 for label in self.item_labels(item):
@@ -1696,7 +1758,11 @@ class Plex(Library):
                     failures += 1
                 if failures > failure_threshold:
                     return False
-        elif (filter_attr != "year" and filter_attr in builder.number_filters) or modifier in [".gt", ".gte", ".lt", ".lte", ".count_gt", ".count_gte", ".count_lt", ".count_lte"]:
+        elif (filter_attr != "year" and filter_attr in builder.number_filters) or modifier in [".gt", ".gte", ".lt",
+                                                                                               ".lte", ".count_gt",
+                                                                                               ".count_gte",
+                                                                                               ".count_lt",
+                                                                                               ".count_lte"]:
             test_number = []
             if filter_attr in ["channels", "height", "width", "aspect"]:
                 test_number = 0
@@ -1706,7 +1772,8 @@ class Plex(Library):
                         test_number = attr
             elif filter_attr == "stinger_rating":
                 test_number = None
-                if item.ratingKey in self.movie_rating_key_map and self.movie_rating_key_map[item.ratingKey] in self.config.mediastingers:
+                if item.ratingKey in self.movie_rating_key_map and self.movie_rating_key_map[
+                    item.ratingKey] in self.config.mediastingers:
                     test_number = self.config.mediastingers[self.movie_rating_key_map[item.ratingKey]]
             elif filter_attr == "versions":
                 test_number = len(item.media)

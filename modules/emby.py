@@ -140,24 +140,14 @@ class Emby(Library):
 
     def fetchItems(self, uri_args):
         pass
+    def get_method_alias(self):
+        return method_alias
 
-    def split(self, text):
-        attribute, modifier = os.path.splitext(str(text).lower())
-        attribute = method_alias[attribute] if attribute in method_alias else attribute
-        modifier = modifier_alias[modifier] if modifier in modifier_alias else modifier
+    def get_modifier_alias(self):
+        return modifier_alias
 
-        if attribute == "add_to_arr":
-            attribute = "radarr_add_missing" if self.is_movie else "sonarr_add_missing"
-        elif attribute in ["arr_tag", "arr_folder"]:
-            attribute = f"{'rad' if self.is_movie else 'son'}{attribute}"
-        elif attribute in builder.date_attributes and modifier in [".gt", ".gte"]:
-            modifier = ".after"
-        elif attribute in builder.date_attributes and modifier in [".lt", ".lte"]:
-            modifier = ".before"
-        final = f"{attribute}{modifier}"
-        if text != final:
-            logger.warning(f"Collection Warning: {text} attribute will run as {final}")
-        return attribute, modifier, final
+    def get_builder(self):
+        return builder
 
     def notify(self, text, collection=None, critical=True):
         self.config.notify(text, server=self.EmbyServer.info.server_name, critical=critical)

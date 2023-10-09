@@ -229,12 +229,45 @@ class Library(ABC):
 
         return poster_uploaded, background_uploaded
 
+    def split(self, text):
+        method_alias = self.get_method_alias()
+        modifier_alias = self.get_modifier_alias()
+        builder = self.get_builder()
+        attribute, modifier = os.path.splitext(str(text).lower())
+        attribute = method_alias[attribute] if attribute in method_alias else attribute
+        modifier = modifier_alias[modifier] if modifier in modifier_alias else modifier
+
+        if attribute == "add_to_arr":
+            attribute = "radarr_add_missing" if self.is_movie else "sonarr_add_missing"
+        elif attribute in ["arr_tag", "arr_folder"]:
+            attribute = f"{'rad' if self.is_movie else 'son'}{attribute}"
+        elif attribute in builder.date_attributes and modifier in [".gt", ".gte"]:
+            modifier = ".after"
+        elif attribute in builder.date_attributes and modifier in [".lt", ".lte"]:
+            modifier = ".before"
+        final = f"{attribute}{modifier}"
+        if text != final:
+            logger.warning(f"Collection Warning: {text} attribute will run as {final}")
+        return attribute, modifier, final
+
     def get_id_from_maps(self, key):
         key = str(key)
         if key in self.movie_rating_key_map:
             return self.movie_rating_key_map[key]
         elif key in self.show_rating_key_map:
             return self.show_rating_key_map[key]
+
+    @abstractmethod
+    def get_method_alias(self):
+        pass
+
+    @abstractmethod
+    def get_modifier_alias(self):
+        pass
+
+    @abstractmethod
+    def get_builder(self):
+        pass
 
     @abstractmethod
     def notify(self, text, collection=None, critical=True):

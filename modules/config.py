@@ -1010,11 +1010,8 @@ class ConfigFile:
                     if not library.metadata_files and not library.overlay_files and not library.library_operation and not library.images_files and not self.playlist_files:
                         raise Failed("Config Error: No valid metadata files, overlay files, images files, playlist files, or library operations found")
                 except Failed as e:
-                    logger.stacktrace()
-                    logger.error(e)
                     logger.info("")
                     logger.info(f"{display_name} Library Connection Failed")
-                    continue
 
 
                 if self.general["radarr"]["url"] or (lib and "radarr" in lib):

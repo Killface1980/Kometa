@@ -564,15 +564,6 @@ class Plex(Library):
     def fetchItem(self, data):
         return self.PlexServer.fetchItem(data)
 
-    def cache_items(self):
-        logger.info("")
-        logger.separator(f"Caching {self.name} Library Items", space=False, border=False)
-        logger.info("")
-        items = self.get_all()
-        for item in items:
-            self.cached_items[item.ratingKey] = (item, False)
-        return items
-
     @retry(stop_max_attempt_number=6, wait_fixed=10000, retry_on_exception=util.retry_if_not_plex)
     def fetchItems(self, uri_args):
         return self.Plex.fetchItems(f"/library/sections/{self.Plex.key}/all{uri_args}")
@@ -669,6 +660,9 @@ class Plex(Library):
             return item.labels
         except BadRequest:
             raise Failed(f"Item: {item.title} Labels failed to load")
+
+    def get_language(self):
+        return self.Plex.language
 
     def find_poster_url(self, item):
         if isinstance(item, Movie):

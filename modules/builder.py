@@ -1,7 +1,7 @@
 import os, re, time
 from arrapi import ArrException
 from datetime import datetime
-from modules import anidb, anilist, flixpatrol, icheckmovies, imdb, letterboxd, mal, plex, radarr, reciperr, sonarr, tautulli, tmdb, trakt, tvdb, mdblist, util
+from modules import anidb, anilist, flixpatrol, icheckmovies, imdb, letterboxd, mal, plex, emby, radarr, reciperr, sonarr, tautulli, tmdb, trakt, tvdb, mdblist, util
 from modules.util import Failed, FilterFailed, NonExisting, NotScheduled, NotScheduledRange, Deleted
 from modules.overlay import Overlay
 from modules.poster import PMMImage
@@ -16,7 +16,7 @@ logger = util.logger
 advance_new_agent = ["item_metadata_language", "item_use_original_title"]
 advance_show = ["item_episode_sorting", "item_keep_episodes", "item_delete_episodes", "item_season_display", "item_episode_sorting"]
 all_builders = anidb.builders + anilist.builders + flixpatrol.builders + icheckmovies.builders + imdb.builders + \
-               letterboxd.builders + mal.builders + plex.builders + reciperr.builders + tautulli.builders + \
+               letterboxd.builders + mal.builders + emby.builders + plex.builders + reciperr.builders + tautulli.builders + \
                tmdb.builders + trakt.builders + tvdb.builders + mdblist.builders + radarr.builders + sonarr.builders
 show_only_builders = [
     "tmdb_network", "tmdb_show", "tmdb_show_details", "tvdb_show", "tvdb_show_details", "tmdb_airing_today",
@@ -438,7 +438,7 @@ class CollectionBuilder:
                     raise Failed(f"{self.Type} Error: {library_type} is invalid. Options: true, false, {', '.join(plex.library_types)}")
                 elif library_type == "false":
                     raise NotScheduled(f"Skipped because run_definition is false")
-                elif library_type != "true" and self.library and library_type != self.library.Plex.type:
+                elif library_type != "true" and self.library and library_type != self.library.get_type():
                     raise NotScheduled(f"Skipped because run_definition library_type: {library_type} doesn't match")
 
         if self.playlist:               self.builder_level = "item"
@@ -558,7 +558,7 @@ class CollectionBuilder:
 
         self.asset_directory = metadata.asset_directory if metadata.asset_directory else self.library.asset_directory
 
-        self.language = self.library.Plex.language
+        self.language = self.library.get_language()
         self.details = {
             "show_filtered": self.library.show_filtered,
             "show_options": self.library.show_options,

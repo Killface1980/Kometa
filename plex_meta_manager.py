@@ -344,9 +344,9 @@ def run_config(config, stats):
             for library in config.libraries:
                 if library.get_server().machineIdentifier in ran:
                     continue
-                ran.append(library.PlexServer.machineIdentifier)
+                ran.append(library.get_server().machineIdentifier)
                 logger.info("")
-                logger.separator(f"{library.PlexServer.friendlyName} Playlist Report")
+                logger.separator(f"{library.get_server().friendlyName} Playlist Report")
                 logger.info("")
                 report = library.playlist_report()
                 max_length = 0

@@ -8,6 +8,7 @@ from PIL import Image
 
 logger = util.logger
 
+
 class Library(ABC):
     def __init__(self, config, params):
         self.Radarr = None
@@ -49,10 +50,12 @@ class Library(ABC):
         self.asset_directory = params["asset_directory"] if params["asset_directory"] else []
         self.default_dir = params["default_dir"]
         self.mapping_name, output = util.validate_filename(self.original_mapping_name)
-        self.image_table_name = self.config.Cache.get_image_table_name(self.original_mapping_name) if self.config.Cache else None
+        self.image_table_name = self.config.Cache.get_image_table_name(
+            self.original_mapping_name) if self.config.Cache else None
         self.overlay_folder = os.path.join(self.config.default_dir, "overlays")
         self.overlay_backup = os.path.join(self.overlay_folder, f"{self.mapping_name} Original Posters")
-        self.report_path = params["report_path"] if params["report_path"] else os.path.join(self.default_dir, f"{self.mapping_name}_report.yml")
+        self.report_path = params["report_path"] if params["report_path"] else os.path.join(self.default_dir,
+                                                                                            f"{self.mapping_name}_report.yml")
         self.report_data = {}
         self.asset_folders = params["asset_folders"]
         self.create_asset_folders = params["create_asset_folders"]
@@ -110,24 +113,26 @@ class Library(ABC):
         self.genre_mapper = params["genre_mapper"]
         self.content_rating_mapper = params["content_rating_mapper"]
         self.changes_webhooks = params["changes_webhooks"]
-        self.split_duplicates = params["split_duplicates"] # TODO: Here or just in Plex?
+        self.split_duplicates = params["split_duplicates"]  # TODO: Here or just in Plex?
         if 'plex' in params:
-            self.clean_bundles = params["plex"]["clean_bundles"] # TODO: Here or just in Plex?
-            self.empty_trash = params["plex"]["empty_trash"] # TODO: Here or just in Plex?
-            self.optimize = params["plex"]["optimize"] # TODO: Here or just in Plex?
-        self.stats = {"created": 0, "modified": 0, "deleted": 0, "added": 0, "unchanged": 0, "removed": 0, "radarr": 0, "sonarr": 0, "names": []}
+            self.clean_bundles = params["plex"]["clean_bundles"]  # TODO: Here or just in Plex?
+            self.empty_trash = params["plex"]["empty_trash"]  # TODO: Here or just in Plex?
+            self.optimize = params["plex"]["optimize"]  # TODO: Here or just in Plex?
+        self.stats = {"created": 0, "modified": 0, "deleted": 0, "added": 0, "unchanged": 0, "removed": 0, "radarr": 0,
+                      "sonarr": 0, "names": []}
         self.status = {}
 
         self.items_library_operation = True if self.assets_for_all or self.mass_genre_update or self.remove_title_parentheses \
                                                or self.mass_audience_rating_update or self.mass_critic_rating_update or self.mass_user_rating_update \
                                                or self.mass_episode_audience_rating_update or self.mass_episode_critic_rating_update or self.mass_episode_user_rating_update \
-                                               or self.mass_content_rating_update or self.mass_originally_available_update or self.mass_original_title_update\
-                                               or self.mass_imdb_parental_labels or self.mass_episode_imdb_parental_labels or self.genre_mapper or self.content_rating_mapper or self.mass_studio_update\
+                                               or self.mass_content_rating_update or self.mass_originally_available_update or self.mass_original_title_update \
+                                               or self.mass_imdb_parental_labels or self.mass_episode_imdb_parental_labels or self.genre_mapper or self.content_rating_mapper or self.mass_studio_update \
                                                or self.radarr_add_all_existing or self.sonarr_add_all_existing or self.mass_poster_update or self.mass_background_update else False
         self.library_operation = True if self.items_library_operation or self.delete_collections or self.mass_collection_mode \
                                          or self.radarr_remove_by_tag or self.sonarr_remove_by_tag or self.show_unmanaged or self.show_unconfigured \
                                          or self.metadata_backup or self.update_blank_track_titles else False
-        self.meta_operations = [i["source"] if isinstance(i, dict) else i for i in [getattr(self, o) for o in operations.meta_operations] if i]
+        self.meta_operations = [i["source"] if isinstance(i, dict) else i for i in
+                                [getattr(self, o) for o in operations.meta_operations] if i]
         self.label_operations = True if self.assets_for_all or self.mass_imdb_parental_labels or self.mass_episode_imdb_parental_labels else False
 
         if self.asset_directory:
@@ -158,7 +163,8 @@ class Library(ABC):
         if not operations_only and not collection_only:
             for file_type, overlay_file, temp_vars, asset_directory in self.overlay_path:
                 try:
-                    overlay_obj = OverlayFile(self.config, self, file_type, overlay_file, temp_vars, asset_directory, self.queue_current)
+                    overlay_obj = OverlayFile(self.config, self, file_type, overlay_file, temp_vars, asset_directory,
+                                              self.queue_current)
                     self.overlay_files.append(overlay_obj)
                     for qk, qv in overlay_obj.queues.items():
                         self.queues[self.queue_current] = qv
@@ -169,7 +175,8 @@ class Library(ABC):
         if not operations_only and not overlays_only:
             for file_type, images_file, temp_vars, asset_directory in self.image_sets:
                 try:
-                    images_obj = MetadataFile(self.config, self, file_type, images_file, temp_vars, asset_directory, image_set_file=True)
+                    images_obj = MetadataFile(self.config, self, file_type, images_file, temp_vars, asset_directory,
+                                              image_set_file=True)
                     self.images_files.append(images_obj)
                 except Failed as e:
                     logger.error(e)
@@ -201,7 +208,8 @@ class Library(ABC):
             try:
                 image_compare = None
                 if self.config.Cache:
-                    _, image_compare, _ = self.config.Cache.query_image_map(item.ratingKey, f"{self.image_table_name}_backgrounds")
+                    _, image_compare, _ = self.config.Cache.query_image_map(item.ratingKey,
+                                                                            f"{self.image_table_name}_backgrounds")
                 if not image_compare or str(background.compare) != str(image_compare):
                     self._upload_image(item, background)
                     background_uploaded = True
@@ -213,9 +221,11 @@ class Library(ABC):
                 logger.error(f"Detail: {background.attribute} failed to update {background.message}")
         if self.config.Cache:
             if poster_uploaded:
-                self.config.Cache.update_image_map(item.ratingKey, self.image_table_name, "", poster.compare if poster else "")
+                self.config.Cache.update_image_map(item.ratingKey, self.image_table_name, "",
+                                                   poster.compare if poster else "")
             if background_uploaded:
-                self.config.Cache.update_image_map(item.ratingKey, f"{self.image_table_name}_backgrounds", "", background.compare)
+                self.config.Cache.update_image_map(item.ratingKey, f"{self.image_table_name}_backgrounds", "",
+                                                   background.compare)
 
         return poster_uploaded, background_uploaded
 
@@ -228,6 +238,10 @@ class Library(ABC):
 
     @abstractmethod
     def notify(self, text, collection=None, critical=True):
+        pass
+
+    @abstractmethod
+    def get_language(self):
         pass
 
     @abstractmethod
@@ -261,7 +275,8 @@ class Library(ABC):
         pass
 
     @abstractmethod
-    def edit_tags(self, attr, obj, add_tags=None, remove_tags=None, sync_tags=None, do_print=True, locked=True, is_locked=None):
+    def edit_tags(self, attr, obj, add_tags=None, remove_tags=None, sync_tags=None, do_print=True, locked=True,
+                  is_locked=None):
         pass
 
     @abstractmethod
@@ -336,9 +351,17 @@ class Library(ABC):
         yaml.data = self.report_data
         yaml.save()
 
-    @abstractmethod
     def cache_items(self):
-        pass
+        logger.info("")
+        logger.separator(f"Caching {self.name} Library Items", space=False, border=False)
+        logger.info("")
+        items = self.get_all()
+        for item in items:
+            self.cached_items[item.ratingKey] = (item, False)
+        return items
+
+    def get_type(self):
+        return self.type
 
     def map_guids(self, items):
         for i, item in enumerate(items, 1):
@@ -352,7 +375,8 @@ class Library(ABC):
             if key not in self.movie_rating_key_map and key not in self.show_rating_key_map:
                 if isinstance(item, tuple):
                     item_type, check_id = self.config.Convert.scan_guid(guid)
-                    id_type, main_id, imdb_id, _ = self.config.Convert.ids_from_cache(key, guid, item_type, check_id, self)
+                    id_type, main_id, imdb_id, _ = self.config.Convert.ids_from_cache(key, guid, item_type, check_id,
+                                                                                      self)
                 else:
                     id_type, main_id, imdb_id = self.config.Convert.get_id(item, self)
                 if main_id:

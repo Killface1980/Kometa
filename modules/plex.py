@@ -543,6 +543,9 @@ class Plex(Library):
             terms["year"] = year
         return self.Plex.search(libtype=libtype, **terms)
 
+    def get_server(self):
+        return self.PlexServer
+
     def fetch_item(self, item):
         if isinstance(item, (Movie, Show, Season, Episode, Artist, Album, Track)):
             return self.reload(item)
@@ -560,6 +563,15 @@ class Plex(Library):
     @retry(stop_max_attempt_number=6, wait_fixed=10000, retry_on_exception=util.retry_if_not_plex)
     def fetchItem(self, data):
         return self.PlexServer.fetchItem(data)
+
+    def cache_items(self):
+        logger.info("")
+        logger.separator(f"Caching {self.name} Library Items", space=False, border=False)
+        logger.info("")
+        items = self.get_all()
+        for item in items:
+            self.cached_items[item.ratingKey] = (item, False)
+        return items
 
     @retry(stop_max_attempt_number=6, wait_fixed=10000, retry_on_exception=util.retry_if_not_plex)
     def fetchItems(self, uri_args):

@@ -342,7 +342,7 @@ def run_config(config, stats):
         if config.general["playlist_report"]:
             ran = []
             for library in config.libraries:
-                if library.PlexServer.machineIdentifier in ran:
+                if library.get_server().machineIdentifier in ran:
                     continue
                 ran.append(library.PlexServer.machineIdentifier)
                 logger.info("")
@@ -1009,6 +1009,7 @@ def run_playlists(config):
     return status, stats
 
 if __name__ == "__main__":
+    run_args["run"] = True
     try:
         if run_args["run"] or run_args["tests"] or run_args["run-collections"] or run_args["run-libraries"] or run_args["run-metadata-files"] or run_args["resume"]:
             process({"collections": run_args["run-collections"], "libraries": run_args["run-libraries"], "metadata_files": run_args["run-metadata-files"]})

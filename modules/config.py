@@ -18,6 +18,7 @@ from modules.notifiarr import Notifiarr
 from modules.omdb import OMDb
 from modules.overlays import Overlays
 from modules.plex import Plex
+from modules.emby import Emby
 from modules.radarr import Radarr
 from modules.sonarr import Sonarr
 from modules.reciperr import Reciperr
@@ -155,6 +156,9 @@ class ConfigFile:
         self.overlays_only = attrs["overlays_only"] if "overlays_only" in attrs else False
         self.env_plex_url = attrs["plex_url"] if "plex_url" in attrs else ""
         self.env_plex_token = attrs["plex_token"] if "plex_token" in attrs else ""
+        self.env_emby_url = attrs["emby_url"] if "emby_url" in attrs else ""
+        self.env_emby_token = attrs["emby_token"] if "emby_token" in attrs else ""
+        self.env_emby_user_id = attrs["emby_user_id"] if "emby_user_id" in attrs else ""
         current_time = datetime.now()
 
         with open(self.config_path, encoding="utf-8") as fp:
@@ -202,6 +206,13 @@ class ConfigFile:
                     replace_attr(self.data["libraries"][library], "show_filtered", "plex")
                     replace_attr(self.data["libraries"][library], "show_missing", "plex")
                     replace_attr(self.data["libraries"][library], "save_missing", "plex")
+                if "emby" in self.data["libraries"][library] and self.data["libraries"][library]["emby"]:
+                    replace_attr(self.data["libraries"][library], "asset_directory", "emby")
+                    replace_attr(self.data["libraries"][library], "sync_mode", "emby")
+                    replace_attr(self.data["libraries"][library], "show_unmanaged", "emby")
+                    replace_attr(self.data["libraries"][library], "show_filtered", "emby")
+                    replace_attr(self.data["libraries"][library], "show_missing", "emby")
+                    replace_attr(self.data["libraries"][library], "save_missing", "emby")
                 if "settings" in self.data["libraries"][library] and self.data["libraries"][library]["settings"]:
                     if "collection_minimum" in self.data["libraries"][library]["settings"]:
                         self.data["libraries"][library]["settings"]["minimum_items"] = self.data["libraries"][library]["settings"].pop("collection_minimum")
@@ -263,6 +274,7 @@ class ConfigFile:
             self.data["webhooks"] = temp
         if "github" in self.data:                      self.data["github"] = self.data.pop("github")
         if "plex" in self.data:                        self.data["plex"] = self.data.pop("plex")
+        if "emby" in self.data:                        self.data["emby"] = self.data.pop("emby")
         if "tmdb" in self.data:                        self.data["tmdb"] = self.data.pop("tmdb")
         if "tautulli" in self.data:                    self.data["tautulli"] = self.data.pop("tautulli")
         if "omdb" in self.data:                        self.data["omdb"] = self.data.pop("omdb")
@@ -304,6 +316,8 @@ class ConfigFile:
 
         def check_for_attribute(data, attribute, parent=None, test_list=None, default=None, do_print=True, default_is_none=False, req_default=False, var_type="str", throw=False, save=True, int_min=0):
             endline = ""
+            if parent is not None and parent == "emby" or parent == "plex":
+                pass
             if parent is not None:
                 if data and parent in data:
                     data = data[parent]
@@ -667,6 +681,11 @@ class ConfigFile:
                 "empty_trash": check_for_attribute(self.data, "empty_trash", parent="plex", var_type="bool", default=False),
                 "optimize": check_for_attribute(self.data, "optimize", parent="plex", var_type="bool", default=False)
             }
+            self.general["emby"] = {
+                "url": check_for_attribute(self.data, "url", parent="emby", var_type="url", default_is_none=True),
+                "token": check_for_attribute(self.data, "token", parent="emby", default_is_none=True),
+                "user_id": check_for_attribute(self.data, "user_id", parent="emby", var_type="str", default_is_none=True),
+            }
             self.general["radarr"] = {
                 "url": check_for_attribute(self.data, "url", parent="radarr", var_type="url", default_is_none=True),
                 "token": check_for_attribute(self.data, "token", parent="radarr", default_is_none=True),
@@ -937,7 +956,8 @@ class ConfigFile:
                         params["image_sets"] = files
                 except Failed as e:
                     logger.error(e)
-
+                    logger.error(e)
+                has_media_server = False
                 try:
                     logger.info("")
                     logger.separator("Plex Configuration", space=False, border=False)
@@ -963,11 +983,39 @@ class ConfigFile:
                     if not library.metadata_files and not library.overlay_files and not library.library_operation and not library.images_files and not self.playlist_files:
                         raise Failed("Config Error: No valid metadata files, overlay files, images files, playlist files, or library operations found")
                 except Failed as e:
+                    logger.info("")
+                    logger.info(f"{display_name} Library Connection Failed")
+
+                try:
+                    logger.info("")
+                    logger.separator("Emby Configuration", space=False, border=False)
+                    params["emby"] = {
+                        "url": check_for_attribute(lib, "url", parent="emby", var_type="url", default=self.general["emby"]["url"], req_default=True, save=False),
+                        "token": check_for_attribute(lib, "token", parent="emby", default=self.general["emby"]["token"], req_default=True, save=False),
+                        "user_id": check_for_attribute(lib, "user_id", parent="emby", default=self.general["emby"]["user_id"], req_default=True, save=False),
+                    }
+
+                    if params["emby"]["url"].lower() == "env":
+                        params["emby"]["url"] = self.env_emby_url
+                    if params["emby"]["token"].lower() == "env":
+                        params["emby"]["token"] = self.env_emby_token
+                    if params["emby"]["user_id"].lower() == "env":
+                        params["emby"]["user_id"] = self.env_emby_user_id
+                    library = Emby(self, params)
+                    logger.info("")
+                    logger.info(f"{display_name} Library Connection Successful")
+                    logger.info("")
+                    logger.separator("Scanning Metadata and Overlay Files", space=False, border=False)
+                    library.scan_files(self.operations_only, self.overlays_only, self.collection_only)
+                    if not library.metadata_files and not library.overlay_files and not library.library_operation and not library.images_files and not self.playlist_files:
+                        raise Failed("Config Error: No valid metadata files, overlay files, images files, playlist files, or library operations found")
+                except Failed as e:
                     logger.stacktrace()
                     logger.error(e)
                     logger.info("")
                     logger.info(f"{display_name} Library Connection Failed")
                     continue
+
 
                 if self.general["radarr"]["url"] or (lib and "radarr" in lib):
                     logger.info("")
